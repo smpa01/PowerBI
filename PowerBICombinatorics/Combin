@@ -37,8 +37,9 @@ in
     
     
 
-//If a different delimiter is preferred
-// provide a preferred delimited as y
+//If a different character is preferred
+// provide a preferred character as y
+let fx = 
 (x as list, y as text)=>let
     Initiator={{}},
     Loop = List.Generate(
@@ -54,4 +55,19 @@ in
                                 
     )
 in
-    List.Transform(Loop{List.Count(Loop)-1},each Text.Combine(_,y))
+    List.Transform(Loop{List.Count(Loop)-1},each Text.Combine(_,y)),
+ Subset = fx({"powerBI","powerQuery","DAX"},"+")
+ in Subset
+ 
+ /*the above results in following
+| List                   |
+|------------------------|
+|                        |
+| powerBI                |
+| powerQuery             |
+| powerBI+powerQuery     |
+| DAX                    |
+| powerBI+DAX            |
+| powerQuery+DAX         |
+| powerBI+powerQuery+DAX |
+*/
