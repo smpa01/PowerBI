@@ -1,0 +1,36 @@
+//this query generates all possible combinations/subsets of a set
+// It expects x as a list and the components of list should be all string
+/* It srats from here
+| List       |
+|------------|
+| powerBI    |
+| powerQuery |
+| DAX        |
+and generates this
+| List                   |
+|------------------------|
+|                        |
+| powerBI                |
+| powerQuery             |
+| powerBI,powerQuery     |
+| DAX                    |
+| powerBI,DAX            |
+| powerQuery,DAX         |
+| powerBI,powerQuery,DAX |
+*/
+(x as list)=>let
+    Initiator={{}},
+    Loop = List.Generate(
+    ()=>[i=0,j=x{i},k=List.Combine({Initiator{i},{j}}),l=List.InsertRange(Initiator,List.Count(Initiator),{k})],
+    each[i]<List.Count(x),
+    each[i=[i]+1,j=x{i},k=[l],l=
+                         let x = List.Generate(
+                                ()=>[a=0,b=k{a},c=List.Combine({b,{j}}),d=List.Combine({k,{c}})],
+                                each [a]<List.Count(k),
+                                each [a=[a]+1,b=k{a},c=List.Combine({b,{j}}),d=List.Combine({[d],{c}})],
+                                each[d]  ) in x{List.Count(x)-1}],
+                                each [l]
+                                
+    )
+in
+    List.Transform(Loop{List.Count(Loop)-1},each Text.Combine(_,","))
