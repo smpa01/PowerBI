@@ -38,6 +38,7 @@ in
     
 
 //If a different delimiter is preferred
+// provide a preferred delimited as y
 (x as list, y as text)=>let
     Initiator={{}},
     Loop = List.Generate(
